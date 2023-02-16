@@ -39,21 +39,21 @@ jobs:
           push: true
           tags: prempalsingh/testdeploy:latest
  
-  create_new_container:
-    needs: publish_to_docker
-    runs-on: ubuntu-latest
-    steps:
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          docker rm -f $(docker ps -aq -f name=testdeploy)
-          docker rmi $(docker images | grep 'prempalsingh/testdeploy' | awk '{print $3}')
-          docker pull prempalsingh/testdeploy
-          docker run --name testdeploy -p 5000:80 --restart=always -d prempalsingh/testdeploy
+ # create_new_container:
+ #   needs: publish_to_docker
+ #   runs-on: ubuntu-latest
+ #   steps:
+ #   - name: executing remote ssh commands using password
+ #     uses: appleboy/ssh-action@master
+ #     with:
+ #       host: ${{ secrets.SSH_HOST }}
+ #       username: ${{ secrets.SSH_USERNAME }}
+ #       password: ${{ secrets.SSH_PASSWORD }}
+ #       port: ${{ secrets.SSH_PORT }}
+ #       script: |
+ #         docker rm -f $(docker ps -aq -f name=testdeploy)
+ #         docker rmi $(docker images | grep 'prempalsingh/testdeploy' | awk '{print $3}')
+ #         docker pull prempalsingh/testdeploy
+ #         docker run --name testdeploy -p 5000:80 --restart=always -d prempalsingh/testdeploy
       
   
